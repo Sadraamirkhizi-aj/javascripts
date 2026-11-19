@@ -43,3 +43,62 @@ acc.deposit(50);
 
 console.log(acc.getBalance());
 console.log(acc.balance);
+
+// closure keeps the variable not value
+function demo(){
+    let x = 1;
+    const show = () => console.log(x);
+    x = 90;
+    show();
+}
+demo();
+
+// famous example of closure : loop with let and var
+// we remember with var we can reassign and redeclare
+
+// but with let we can just reassign 
+
+const print_number = [];
+
+for (var i = 0;i < 3; i++){
+    print_number.push (() => console.log(i));
+}
+
+print_number[0]();
+print_number[1]();
+print_number[2]();
+// the output : 20, 20, 20
+
+// lets write it with let
+
+const print_number_1 = [];
+
+for (let j = 0; j < 3; j++){
+    print_number_1.push (() => console.log(j));
+}
+print_number_1[0]();
+print_number_1[1]();
+print_number_1[2]();
+
+
+// real use : configured function
+
+function makeLimiter(max) {  // parameters
+    let used = 0;
+    return function (){
+        if (used >= max){
+            return "limit reached";
+        }
+        used++;
+        return "ok" + used;
+    };
+}
+
+const limited = makeLimiter(2);
+
+console.log(limited(3));
+console.log(limited(2));
+console.log(limited(1));
+
+// connection to react
+// useState, useEffect and most event handlers in React are built on closures. When you write onClick={() => setCount(count + 1)} in a component, that function holds count from that render. Later you’ll see why a value sometimes seems “stale”; the root is this lesson
